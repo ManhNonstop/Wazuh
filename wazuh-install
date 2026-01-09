@@ -4,6 +4,8 @@ I. Initial configuration
 
   + Change hostname: hostnamectl set-hostname wazuh && exec bash
 
+  + Change Timezone: timedatectl set-timezone Asia/Ho_Chi_Minh
+
   + curl -sO https://packages.wazuh.com/4.14/wazuh-install.sh
 
   + curl -sO https://packages.wazuh.com/4.14/config.yml
@@ -42,8 +44,8 @@ II. Wazuh node installation
 
 2. Wazuh server cluster installation
 
-  + bash wazuh-install.sh --wazuh-server wazhu
+  + bash wazuh-install.sh --wazuh-server wazuh
 
 3. Wazuh dashboard installation
 
-  + bash wazuh-install.sh --wazuh-dashboard wazhu
+  + bash wazuh-install.sh --wazuh-dashboard wazuh
