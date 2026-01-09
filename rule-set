@@ -1,0 +1,118 @@
+cat <<'EOF' | tee /var/ossec/etc/rules/endpoint_sca_rules.xml
+<group name="endpoint,sca,">
+
+  <rule id="101001" level="8">
+    <if_matched_sid>sca_failed</if_matched_sid>
+    <description>SCA: Configuration non-compliance detected</description>
+    <mitre>T1082</mitre>
+  </rule>
+
+  <rule id="101002" level="12">
+    <if_matched_sid>sca_critical</if_matched_sid>
+    <description>SCA: Critical configuration issue</description>
+    <mitre>T1562</mitre>
+  </rule>
+
+</group>
+EOF
+
+
+
+cat <<'EOF' | tee /var/ossec/etc/rules/endpoint_malware_rules.xml
+<group name="endpoint,malware,">
+
+  <rule id="101010" level="12">
+    <if_group>rootcheck</if_group>
+    <match>trojan|rootkit|malware</match>
+    <description>Malware or rootkit indicators detected</description>
+    <mitre>T1059,T1204</mitre>
+  </rule>
+
+  <rule id="101011" level="14">
+    <match>LD_PRELOAD|/tmp/.*\.so</match>
+    <description>Suspicious shared library injection</description>
+    <mitre>T1574</mitre>
+  </rule>
+
+</group>
+EOF
+
+
+
+cat <<'EOF' | tee /var/ossec/etc/rules/endpoint_fim_rules.xml
+<group name="endpoint,fim,">
+
+  <rule id="101020" level="7">
+    <if_group>syscheck</if_group>
+    <description>File integrity change detected</description>
+  </rule>
+
+  <rule id="101021" level="12">
+    <if_matched_sid>554</if_matched_sid>
+    <match>/etc/passwd|/etc/shadow|/etc/sudoers</match>
+    <description>Critical system file modified</description>
+    <mitre>T1222</mitre>
+  </rule>
+
+</group>
+EOF
+
+
+
+cat <<'EOF' | tee /var/ossec/etc/rules/threat_hunting_rules.xml
+<group name="threat_hunting,">
+
+  <rule id="101030" level="10">
+    <match>nc\s+-e|bash\s+-i|/dev/tcp</match>
+    <description>Possible reverse shell detected</description>
+    <mitre>T1059,T1071</mitre>
+  </rule>
+
+  <rule id="101031" level="13">
+    <match>curl.*\|.*bash|wget.*\|.*sh</match>
+    <description>Remote command execution via script</description>
+    <mitre>T1105</mitre>
+  </rule>
+
+</group>
+EOF
+
+
+
+cat <<'EOF' | tee /var/ossec/etc/rules/vulnerability_rules.xml
+<group name="vulnerability,">
+
+  <rule id="101040" level="8">
+    <if_group>vulnerability</if_group>
+    <description>Vulnerability detected on endpoint</description>
+    <mitre>T1190</mitre>
+  </rule>
+
+  <rule id="101041" level="12">
+    <if_matched_sid>vulnerability_critical</if_matched_sid>
+    <description>Critical vulnerability detected</description>
+    <mitre>T1068</mitre>
+  </rule>
+
+</group>
+EOF
+
+
+
+cat <<'EOF' | tee /var/ossec/etc/rules/mitre_attack_rules.xml
+<group name="mitre,attack,">
+
+  <rule id="101050" level="10">
+    <if_matched_sid>101030</if_matched_sid>
+    <description>MITRE ATT&CK: Command & Control behavior</description>
+    <mitre>T1071</mitre>
+  </rule>
+
+  <rule id="101051" level="14">
+    <if_matched_sid>101021</if_matched_sid>
+    <description>MITRE ATT&CK: Privilege escalation via file tampering</description>
+    <mitre>T1068</mitre>
+  </rule>
+
+</group>
+EOF
