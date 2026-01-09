@@ -1,0 +1,49 @@
+I. Initial configuration
+
+1. Download the Wazuh installation assistant and the configuration file.
+
+  + Change hostname: hostnamectl set-hostname wazuh && exec bash
+
+  + curl -sO https://packages.wazuh.com/4.14/wazuh-install.sh
+
+  + curl -sO https://packages.wazuh.com/4.14/config.yml
+
+2. Edit ./config.yml
+
+nodes:
+  # Wazuh indexer nodes
+  indexer:
+    - name: wazuh
+      ip: 172.16.1.15
+
+  # Wazuh server nodes
+  # If there is more than one Wazuh server
+  # node, each one must have a node_type
+  server:
+    - name: wazuh
+      ip: 172.16.1.15
+
+  # Wazuh dashboard nodes
+  dashboard:
+    - name: wazuh
+      ip: 172.16.1.15
+
+3. Run the Wazuh installation
+
+  + bash wazuh-install.sh --generate-config-files
+
+II. Wazuh node installation
+
+1. Wazuh Indexer cluster installation
+
+  + bash wazuh-install.sh --wazuh-indexer wazuh
+
+  + bash wazuh-install.sh --start-cluster
+
+2. Wazuh server cluster installation
+
+  + bash wazuh-install.sh --wazuh-server wazhu
+
+3. Wazuh dashboard installation
+
+  + bash wazuh-install.sh --wazuh-dashboard wazhu
